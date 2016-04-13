@@ -1,4 +1,5 @@
 {
   "name": "workspace",
-  "app_id": ""
+  "app_id": "",
+-  "v2": true
 }
