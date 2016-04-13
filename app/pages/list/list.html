@@ -9,10 +9,10 @@
   </ion-buttons>
 </ion-navbar>
 
-<ion-content class="list">
+<ion-content>
   <ion-list>
-    <ion-item *ngFor="#item of items" (click)="viewItem(item)">
+    <button ion-item *ngFor="#item of items" (click)="viewItem(item)">
       {{item.title}}
-    </ion-item>
+    </button>
   </ion-list>
 </ion-content>

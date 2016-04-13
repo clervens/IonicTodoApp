@@ -5,8 +5,7 @@ import {ItemDetailPage} from '../item-detail/item-detail';
 import {TodosService} from '../../services/todos-service';
 
 @Page({
-  templateUrl: 'build/pages/list/list.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: 'build/pages/list/list.html'
 })
 export class ListPage {
   static get parameters() {
@@ -17,11 +16,12 @@ export class ListPage {
     this.items = [];
 
     this.todosService = todosService;
-    this.todosService.getData().then((todos) => this.items = JSON.parse(todos) || []);
   }
 
   ngOnInit() {
-
+    this.todosService.getData().then(
+      todos => this.items = JSON.parse(todos) || []
+    );
   }
 
   addItem() {
