@@ -11,7 +11,7 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="#item of items" (click)="viewItem(item)">
+    <button ion-item *ngFor="#item of items" (longPress)="showAction(item, $event)">
       {{item.title}}
     </button>
   </ion-list>

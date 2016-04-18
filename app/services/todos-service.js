@@ -28,4 +28,10 @@ export class TodosService {
     let newData = JSON.stringify(this.data);
     this.storage.set('todos', newData);
   }
+  
+  saveData(data) {
+    this.data = data;
+    let newData = JSON.stringify(this.data);
+    this.storage.set('todos', newData);
+  }
 }
