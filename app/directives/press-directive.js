@@ -21,7 +21,6 @@ export class PressDirective {
     this.pressGesture = new Gesture(this.el);
     this.pressGesture.listen();
     this.pressGesture.on('press', e => {
-      console.log('pressed!!', e);
       this.callback.emit(this.el);
     });
   }
