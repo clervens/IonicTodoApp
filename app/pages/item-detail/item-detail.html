@@ -1,7 +1,10 @@
 <ion-navbar *navbar>
   <ion-title>
-    {{title}}
+    #{{index}} | {{title}}
   </ion-title>
+  <ion-buttons end>
+    <button (click)="editItem()">Edit</button>
+  </ion-buttons>
 </ion-navbar>
 
 <ion-content class="list">

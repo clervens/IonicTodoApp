@@ -1,4 +1,5 @@
 import {Page, NavController, ActionSheet, Alert} from 'ionic-angular';
+import {ChangeDetectorRef} from 'angular2/core';
 import {AddItemPage} from '../add-item/add-item';
 import {ItemDetailPage} from '../item-detail/item-detail';
 import {TodosService} from '../../services/todos-service';
@@ -10,32 +11,43 @@ import {PressDirective} from '../../directives/press-directive';
 })
 export class ListPage {
   static get parameters() {
-    return [[NavController], [TodosService]];
+    return [[NavController], [TodosService], [ChangeDetectorRef]];
   }
-  constructor(nav, todosService) {
+  constructor(nav, todosService, ref) {
     this.nav = nav;
     this.items = [];
+    this.ref = ref;
 
     this.todosService = todosService;
   }
 
   ngOnInit() {
     this.todosService.getData().then(
-      todos => this.items = JSON.parse(todos) || []
-    );
+      todos => {
+        this.items = JSON.parse(todos) || [];
+        for (var i = this.items.length - 1; i >= 0; i--) {
+          this.items[i].index = i;
+        }
+        this.ref.detectChanges();
+    });
   }
 
   addItem() {
     this.nav.push(AddItemPage, {listPage: this});
   }
 
-  saveItem(item) {
-    this.items.push(item);
-    this.todosService.save(item);
+  saveItem(item, isEdit) {
+    if (isEdit) {
+      this.items[item.index] = item;
+      this.todosService.saveData(this.items);
+    } else {
+      this.items.push(item);
+      this.todosService.save(item);
+    }
   }
 
   viewItem(item) {
-    this.nav.push(ItemDetailPage, {item: item});
+    this.nav.push(ItemDetailPage, {listPage: this, item: item});
   }
   
   clear() {
