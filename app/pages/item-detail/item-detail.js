@@ -12,12 +12,14 @@ export class ItemDetailPage {
     this.nav = nav;
     this.params = params;
 
-    this.title = this.params.get('item').title;
-    this.description = this.params.get('item').description;
-    this.index = this.params.get('item').index;
+    this.item = this.params.get('item');
   }
   
   editItem() {
-    this.nav.push(AddItemPage, {listPage: this.params.get('listPage'), isEdit: true, item: this.params.get('item')});
+    this.nav.push(AddItemPage, {
+      listPage: this.params.get('listPage'),
+      isEdit: true,
+      item: this.item
+    });
   }
 }

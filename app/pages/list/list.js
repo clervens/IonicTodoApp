@@ -4,6 +4,7 @@ import {AddItemPage} from '../add-item/add-item';
 import {ItemDetailPage} from '../item-detail/item-detail';
 import {TodosService} from '../../services/todos-service';
 import {PressDirective} from '../../directives/press-directive';
+import {Todo} from "../../models/todo";
 
 @Page({
   templateUrl: 'build/pages/list/list.html',
@@ -25,9 +26,9 @@ export class ListPage {
     this.todosService.getData().then(
       todos => {
         this.items = JSON.parse(todos) || [];
-        for (var i = this.items.length - 1; i >= 0; i--) {
-          this.items[i].index = i;
-        }
+        this.items = this.items.map(
+          todoData => new Todo(todoData)
+        );
         this.ref.detectChanges();
     });
   }
