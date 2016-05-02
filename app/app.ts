@@ -1,10 +1,8 @@
-import 'es6-shim';
 import {App, Platform} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {ListPage} from './pages/list/list';
 import {TodosService} from './services/todos-service';
 import {PressDirective} from './directives/press-directive';
-
 
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
@@ -12,14 +10,11 @@ import {PressDirective} from './directives/press-directive';
   providers: [TodosService],
   directives: [PressDirective]
 })
+
 export class MyApp {
-  static get parameters() {
-    return [[Platform]];
-  }
+  rootPage: any = ListPage;
 
-  constructor(platform) {
-    this.rootPage = ListPage;
-
+  constructor(platform: Platform) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

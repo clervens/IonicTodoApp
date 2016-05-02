@@ -9,12 +9,8 @@ import {Todo} from "../../models/todo";
   templateUrl: 'build/pages/list/list.html'
 })
 export class ListPage {
-  static get parameters() {
-    return [[NavController], [TodosService]];
-  }
-  constructor(nav, todosService) {
-    this.nav = nav;
-    this.todosService = todosService;
+  private items;
+  constructor(private nav: NavController, private todosService: TodosService) {
     this.items = [];
   }
 
@@ -27,7 +23,7 @@ export class ListPage {
       (todos) => {
         let dataLst = JSON.parse(todos) || [];
         this.items = dataLst.map((data) => {
-          return data;
+          return new Todo(data);
         });
         loading.dismiss();
       }
