@@ -3,13 +3,12 @@ import {Injectable} from 'angular2/core';
 
 @Injectable()
 export class TodosService {
-  static get parameters() {
-    return [];
-  }
+  private storage;
+  private data;
   constructor() {
     this.storage = new Storage(SqlStorage, {name: 'todos'});
     this.data = null;
-    
+
     this.storage.get('todos').then(
       todos => this.data = JSON.parse(todos)
     );
@@ -28,7 +27,7 @@ export class TodosService {
     let newData = JSON.stringify(this.data);
     this.storage.set('todos', newData);
   }
-  
+
   saveData(data) {
     this.data = data;
     let newData = JSON.stringify(this.data);
