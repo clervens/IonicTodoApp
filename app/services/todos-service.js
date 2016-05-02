@@ -8,11 +8,11 @@ export class TodosService {
   }
   constructor() {
     this.storage = new Storage(SqlStorage, {name: 'todos'});
-
     this.data = null;
-    this.storage.get('todos').then((todos) => {
-      this.data = JSON.parse(todos);
-    });
+    
+    this.storage.get('todos').then(
+      todos => this.data = JSON.parse(todos)
+    );
   }
 
   getData() {
@@ -22,12 +22,16 @@ export class TodosService {
   save(item) {
     if (!this.data) {
       this.data = [item];
-      let newData = JSON.stringify(item);
-      this.storage.set('todos', newData);
     } else {
       this.data.push(item);
-      let newData = JSON.stringify(this.data);
-      this.storage.set('todos', newData);
     }
+    let newData = JSON.stringify(this.data);
+    this.storage.set('todos', newData);
+  }
+  
+  saveData(data) {
+    this.data = data;
+    let newData = JSON.stringify(this.data);
+    this.storage.set('todos', newData);
   }
 }
