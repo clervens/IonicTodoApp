@@ -1,36 +1,37 @@
-import {Page, NavController, ActionSheet, Alert} from 'ionic-angular';
+import {Page, NavController, ActionSheet, Alert, Loading} from 'ionic-angular';
 import {ChangeDetectorRef} from 'angular2/core';
 import {AddItemPage} from '../add-item/add-item';
 import {ItemDetailPage} from '../item-detail/item-detail';
 import {TodosService} from '../../services/todos-service';
-import {PressDirective} from '../../directives/press-directive';
 import {Todo} from "../../models/todo";
 
 @Page({
-  templateUrl: 'build/pages/list/list.html',
-  directives: [PressDirective]
+  templateUrl: 'build/pages/list/list.html'
 })
 export class ListPage {
   static get parameters() {
-    return [[NavController], [TodosService], [ChangeDetectorRef]];
+    return [[NavController], [TodosService]];
   }
-  constructor(nav, todosService, ref) {
+  constructor(nav, todosService) {
     this.nav = nav;
-    this.items = [];
-    this.ref = ref;
-
     this.todosService = todosService;
+    this.items = [];
   }
 
   ngOnInit() {
-    this.todosService.getData().then(
-      todos => {
-        this.items = JSON.parse(todos) || [];
-        this.items = this.items.map(
-          todoData => new Todo(todoData)
-        );
-        this.ref.detectChanges();
+    let loading = Loading.create({
+      content: "Please wait..."
     });
+    this.nav.present(loading);
+    this.todosService.getData().then(
+      (todos) => {
+        let dataLst = JSON.parse(todos) || [];
+        this.items = dataLst.map((data) => {
+          return data;
+        });
+        loading.dismiss();
+      }
+    );
   }
 
   addItem() {
@@ -50,11 +51,11 @@ export class ListPage {
   viewItem(item) {
     this.nav.push(ItemDetailPage, {listPage: this, item: item});
   }
-  
-  clear() {
-    this.todosService.data = [];
-    this.todosService.save({title: 'Hello', description: `It's me`});
+
+  editItem(item) {
+    this.nav.push(AddItemPage, {listPage: this, item: item, isEdit: true});
   }
+
   showAction(item) {
     /*
      * Show ActionSheet
@@ -95,7 +96,7 @@ export class ListPage {
                   text: 'Agree',
                   handler: () => {
                     this.items = this.items.filter(function (el) {
-                      return el.title !== item.title && el.description !== item.description;
+                      return el.id !== item.id;
                     });
                     this.todosService.saveData(this.items);
                   }

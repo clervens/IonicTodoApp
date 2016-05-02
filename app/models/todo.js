@@ -7,7 +7,7 @@ export class Todo {
         }
         this._id = btoa(this._createdAt.toString());
     }
-    
+
     get id() { return this._id; }
     get title() { return this._title; }
     set title(val) { this.update(); this._title = val; }
@@ -15,12 +15,12 @@ export class Todo {
     set description(val) { this._description = val; this.update(); }
     get isChecked() { return this._isChecked; }
     set isChecked(val) { this._isChecked = val; this.update(); }
-    
+
     get createdAt() { return this._createdAt; }
     get updatedAt() { return this._updatedAt; }
-    
+
     update() { this._updatedAt = Date.now(); }
-    
+
     toJSON() {
         return {
             id: this._id,
