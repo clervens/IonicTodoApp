@@ -23,7 +23,7 @@ export class ListPage {
       (todos) => {
         let dataLst = JSON.parse(todos) || [];
         this.items = dataLst.map((data) => {
-          return data;
+          return new Todo(data);
         });
         loading.dismiss();
       }
