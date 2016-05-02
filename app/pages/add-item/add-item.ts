@@ -5,12 +5,8 @@ import {Todo} from '../../models/todo';
   templateUrl: 'build/pages/add-item/add-item.html'
 })
 export class AddItemPage {
-  static get parameters() {
-    return [[NavController], [NavParams]];
-  }
-  constructor(nav, params) {
-    this.nav = nav;
-    this.params = params;
+  private item: Todo;
+  constructor(private nav: NavController, private params: NavParams) {
     if (typeof this.params.get('item') == 'undefined' || this.params.get('item') == null) {
       this.item = new Todo();
     } else {

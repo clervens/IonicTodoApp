@@ -1,20 +1,17 @@
-import {Directive, ElementRef, EventEmitter} from 'angular2/core';
+import {Directive, ElementRef, EventEmitter, Output} from 'angular2/core';
 import {Gesture} from 'ionic-angular/gestures/gesture';
 
 @Directive({
-  selector: '[longPress]',
-  outputs: ['callback: longPress']
+  selector: '[longPress]'
 })
 export class PressDirective {
-  
-  static get parameters() {
-    return [[ElementRef]];
-  }
+  private el: any;
+  private pressGesture: Gesture;
 
-  constructor(el) {
-    this.el = el.nativeElement;
-    this.pressGesture = null;
-    this.callback = new EventEmitter();
+  @Output('longPress') callback = new EventEmitter();
+
+  constructor(private elm: ElementRef) {
+    this.el = elm.nativeElement;
   }
 
   ngOnInit() {
