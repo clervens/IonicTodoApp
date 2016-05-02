@@ -1,13 +1,16 @@
 <ion-navbar *navbar>
   <ion-title>
-    {{title}}
+    {{item.title}}
   </ion-title>
+  <ion-buttons end>
+    <button (click)="editItem()">Edit</button>
+  </ion-buttons>
 </ion-navbar>
 
 <ion-content class="list">
   <ion-card>
     <ion-card-content>
-      {{description}}
+      {{item.description}}
     </ion-card-content>
   </ion-card>
 </ion-content>

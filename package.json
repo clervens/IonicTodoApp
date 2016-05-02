@@ -38,7 +38,8 @@
       "platform": "ios",
       "version": "",
       "locator": "ios"
-    }
+    },
+    "android"
   ],
   "name": "ionictodoapp",
   "description": "IonicTodoApp: An Ionic project"
