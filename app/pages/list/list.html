@@ -1,8 +1,11 @@
 <ion-navbar *navbar>
+  <button menuToggle>
+    <ion-icon name='menu'></ion-icon>
+  </button>
   <ion-title>
     Home
   </ion-title>
-  <ion-buttons end>
+  <ion-buttons end showWhen="ios">
     <button (click)="addItem()">
       <ion-icon name="add"></ion-icon> Add Item
     </button>
@@ -13,8 +16,15 @@
   <ion-list>
     <ion-list-header>
       Todos
+      <ion-item>
+        <ion-label>Filter</ion-label>
+        <ion-select [(ngModel)]="stateFilter">
+          <ion-option value="{{todoState.ACTIVE}}">Active</ion-option>
+          <ion-option value="{{todoState.ARCHIVED}}">Archived</ion-option>
+        </ion-select>
+      </ion-item>
     </ion-list-header>
-    <ion-item-sliding *ngFor="#item of items">
+    <ion-item-sliding *ngFor="#item of items | TodoStatus: stateFilter">
       <ion-item (press)="showAction(item, $event)">
         <ion-label>{{item.title}}</ion-label>
         <ion-checkbox dark [(ngModel)]="item.isChecked" ></ion-checkbox>
@@ -31,4 +41,9 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+  <div showWhen="android">
+    <button fab fab-bottom fab-right (click)="addItem()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </div>
 </ion-content>
