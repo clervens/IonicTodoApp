@@ -3,11 +3,11 @@ import {Injectable} from 'angular2/core';
 
 @Injectable()
 export class TodosService {
-  private storage;
-  private data;
+  private storage: Storage;
+  private data: Array<any>;
+
   constructor() {
-    this.storage = new Storage(SqlStorage, {name: 'todos'});
-    this.data = null;
+    this.storage = new Storage(SqlStorage, { name: 'todos' });
 
     this.storage.get('todos').then(
       todos => this.data = JSON.parse(todos)

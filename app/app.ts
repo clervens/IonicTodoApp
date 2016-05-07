@@ -2,13 +2,11 @@ import {App, Platform} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {ListPage} from './pages/list/list';
 import {TodosService} from './services/todos-service';
-import {PressDirective} from './directives/press-directive';
 
 @App({
-  template: '<ion-nav [root]="rootPage"></ion-nav>',
+  templateUrl: 'build/pages/app.html',
   config: {}, // http://ionicframework.com/docs/v2/api/config/Config/
-  providers: [TodosService],
-  directives: [PressDirective]
+  providers: [TodosService]
 })
 
 export class MyApp {
