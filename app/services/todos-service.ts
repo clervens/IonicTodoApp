@@ -10,7 +10,7 @@ export class TodosService {
     this.storage = new Storage(SqlStorage, { name: 'todos' });
 
     this.storage.get('todos').then(
-      todos => this.data = JSON.parse(todos)
+      todos => this.data = JSON.parse(todos||"[]")
     );
   }
 
