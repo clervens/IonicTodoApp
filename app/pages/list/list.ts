@@ -29,7 +29,7 @@ export class ListPage {
     this.nav.present(loading);
     this.todosService.getData().then(
       (todos) => {
-        let dataLst = JSON.parse(todos) || [];
+        let dataLst = JSON.parse(todos||"[]");
         this.items = dataLst.map((data) => {
           return new Todo(data);
         });
