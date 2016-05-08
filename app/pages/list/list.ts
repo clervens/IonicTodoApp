@@ -3,15 +3,23 @@ import {ChangeDetectorRef} from 'angular2/core';
 import {AddItemPage} from '../add-item/add-item';
 import {ItemDetailPage} from '../item-detail/item-detail';
 import {TodosService} from '../../services/todos-service';
-import {Todo} from "../../models/todo";
+import {Todo, TodoState} from "../../models/todo";
+import {TodoStatusFilterPipe} from '../../pipes/todostatus-filter';
 
 @Page({
-  templateUrl: 'build/pages/list/list.html'
+  templateUrl: 'build/pages/list/list.html',
+  pipes: [TodoStatusFilterPipe]
 })
 export class ListPage {
-  private items;
+  private items: Array<any>;
+
+  public stateFilter: TodoState;
+  public todoState;
+
   constructor(private nav: NavController, private todosService: TodosService) {
     this.items = [];
+    this.stateFilter = TodoState.ACTIVE;
+    this.todoState = TodoState;
   }
 
   ngOnInit() {
@@ -21,7 +29,7 @@ export class ListPage {
     this.nav.present(loading);
     this.todosService.getData().then(
       (todos) => {
-        let dataLst = JSON.parse(todos) || [];
+        let dataLst = JSON.parse(todos||"[]");
         this.items = dataLst.map((data) => {
           return new Todo(data);
         });
@@ -34,7 +42,7 @@ export class ListPage {
     this.nav.push(AddItemPage, {listPage: this});
   }
 
-  saveItem(item, isEdit) {
+  saveItem(item, isEdit: boolean) {
     if (isEdit) {
       this.items[item.index] = item;
       this.todosService.saveData(this.items);
@@ -44,15 +52,15 @@ export class ListPage {
     }
   }
 
-  viewItem(item) {
+  viewItem(item: Todo) {
     this.nav.push(ItemDetailPage, {listPage: this, item: item});
   }
 
-  editItem(item) {
+  editItem(item: Todo) {
     this.nav.push(AddItemPage, {listPage: this, item: item, isEdit: true});
   }
 
-  showAction(item) {
+  showAction(item: Todo) {
     /*
      * Show ActionSheet
      *  |- Archive-|
@@ -66,7 +74,9 @@ export class ListPage {
         {
           text: 'Archive',
           handler: () => {
-            console.log('Show clicked');
+            console.log('Archive clicked');
+            item.status = TodoState.ARCHIVED;
+            this.saveItem(item, true);
             let alert = Alert.create({
               title: 'Archive',
               subTitle: `The todo "${item.title}" as just been archived!`,

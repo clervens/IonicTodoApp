@@ -1,14 +1,16 @@
 export class Todo {
-  private _id;
-  private _title;
-  private _description;
-  private _isChecked;
-  private _createdAt;
-  private _updatedAt;
+  private _id: string;
+  private _title: string;
+  private _description: string;
+  private _status: TodoState;
+  private _isChecked: boolean;
+  private _createdAt: number;
+  private _updatedAt: number;
 
   constructor(data?: any) {
     if (typeof data === 'undefined' || data === null) {
       this._createdAt = Date.now();
+      this._status = TodoState.ACTIVE;
     } else {
       Object.assign(this, data);
     }
@@ -22,6 +24,8 @@ export class Todo {
   set title(val) { this.update(); this._title = val; this.update(); }
   get description() { return this._description; }
   set description(val) { this._description = val; this.update(); }
+  get status() { return this._status; }
+  set status(val: TodoState) { this._status = val; this.update(); }
   get isChecked() { return this._isChecked; }
   set isChecked(val) { this._isChecked = val; this.update(); }
 
@@ -43,9 +47,15 @@ export class Todo {
       id: this._id,
       title: this._title,
       description: this._description,
+      status: this._status,
       isChecked: this._isChecked,
       createdAt: this._createdAt,
       updatedAt: this._updatedAt
     };
   }
+}
+
+export enum TodoState {
+  ACTIVE,
+  ARCHIVED
 }
