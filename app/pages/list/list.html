@@ -15,14 +15,20 @@
 <ion-content>
   <ion-list>
     <ion-list-header>
-      Todos
-      <ion-item>
-        <ion-label>Filter</ion-label>
-        <ion-select [(ngModel)]="stateFilter">
-          <ion-option value="{{todoState.ACTIVE}}">Active</ion-option>
-          <ion-option value="{{todoState.ARCHIVED}}">Archived</ion-option>
-        </ion-select>
-      </ion-item>
+      <ion-row>
+        <ion-col width-20>
+          Todos
+        </ion-col>
+        <ion-col width-80>
+          <ion-item>
+            <ion-label>Filter</ion-label>
+            <ion-select [(ngModel)]="stateFilter">
+              <ion-option value="{{todoState.ACTIVE}}">Active</ion-option>
+              <ion-option value="{{todoState.ARCHIVED}}">Archived</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
     </ion-list-header>
     <ion-item-sliding *ngFor="#item of items | TodoStatus: stateFilter">
       <ion-item (press)="showAction(item, $event)">
@@ -42,7 +48,7 @@
     </ion-item-sliding>
   </ion-list>
   <div showWhen="android">
-    <button fab fab-bottom fab-right (click)="addItem()">
+    <button secondary fab fab-bottom [attr.fab-left]="settings.leftHandMode ? '' : null" [attr.fab-right]="!settings.leftHandMode ? '' : null" (click)="addItem()">
       <ion-icon name="add"></ion-icon>
     </button>
   </div>
