@@ -3,6 +3,7 @@ import {ChangeDetectorRef} from 'angular2/core';
 import {AddItemPage} from '../add-item/add-item';
 import {ItemDetailPage} from '../item-detail/item-detail';
 import {TodosService} from '../../services/todos-service';
+import {SettingsService} from '../../services/settings-service';
 import {Todo, TodoState} from "../../models/todo";
 import {TodoStatusFilterPipe} from '../../pipes/todostatus-filter';
 
@@ -15,8 +16,10 @@ export class ListPage {
 
   public stateFilter: TodoState;
   public todoState;
+  public settings: any = {};
 
-  constructor(private nav: NavController, private todosService: TodosService) {
+  constructor(private nav: NavController, private todosService: TodosService,
+    public settingsService: SettingsService) {
     this.items = [];
     this.stateFilter = TodoState.ACTIVE;
     this.todoState = TodoState;
@@ -33,7 +36,12 @@ export class ListPage {
         this.items = dataLst.map((data) => {
           return new Todo(data);
         });
-        loading.dismiss();
+        this.settingsService.getSettings().then(
+          (data) => {
+            this.settings = JSON.parse(data||'{}');
+            loading.dismiss();
+          }
+        );
       }
     );
   }
